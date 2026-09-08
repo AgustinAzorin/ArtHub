@@ -5,16 +5,17 @@
 > **Estado: corrido contra Wikisource real.** `spike_anclas.py` (los ocho
 > bloques de la tarea de construcción: verdad de campo, bloques e
 > identificadores, anclas, reanclaje, clasificación de seis categorías, CLI de
-> cuatro subcomandos, salida JSON+tabla, barrido de umbral×semilla) corrió
-> `humo` (calibración, sin red — sigue dando 60/9/3/1 bloques exacto), `traer`
-> contra `es.wikisource.org` y `correr --barrido` sobre una obra real de
+> cuatro subcomandos, salida JSON+tabla, barrido de umbral×semilla y barrido
+> de contexto×semilla) corrió `humo` (calibración, sin red — sigue dando
+> 60/9/3/1 bloques exacto), `traer` contra `es.wikisource.org`,
+> `correr --barrido` y `correr --barrido-contexto` sobre una obra real de
 > Horacio Quiroga con dos revisiones separadas por edición humana real. Los
 > números de §2 y la respuesta de §3 son de esa corrida, no simulados. Los
 > datos de origen (`rev_A.txt`, `rev_B.txt`, `rev_meta.json`) y la salida
-> completa (`resultado.json`, `barrido_resultado.json`) quedan en
-> `spikes/r03/` para auditar cualquier fila de la tabla contra el texto real.
-> Construir el arnés forzó las seis decisiones de diseño de la sección 4;
-> correrlo forzó una séptima, en §4.7.
+> completa (`resultado.json`, `barrido_resultado.json`,
+> `barrido_contexto.json`) quedan en `spikes/r03/` para auditar cualquier
+> fila de la tabla contra el texto real. Construir el arnés forzó las seis
+> decisiones de diseño de la sección 4; correrlo forzó una séptima, en §4.7.
 >
 > Dos notas operativas para quien corra esto de nuevo: (1) la política de red
 > de este entorno ya no bloquea `es.wikisource.org` como bloqueaba cuando se
@@ -97,6 +98,62 @@ escrito: el 3%±1 es estable en toda la banda, no es ruido de una corrida. Las
 huérfanas evitables sí responden al umbral, y se mantienen bajas (≤0.83% de
 media) en todo el rango. Detalle por celda en `spikes/r03/barrido_resultado.json`.
 
+El barrido descarta 0.6 (más FP: 4.17% de media contra 3.17%) y descarta 0.9
+(más huérfanas evitables: 0.83% contra 0.17%). Entre 0.75 y 0.8 el barrido
+**no puede decidir**: las celdas son idénticas, semilla por semilla, no sólo
+en la media —`fp_desvio_mayor_50_pct` y `huerfanas_evitables_pct` dan el
+mismo número en las tres semillas para ambos umbrales (ver
+`spikes/r03/barrido_resultado.json`, claves `umbral=0.75_semilla=*` vs.
+`umbral=0.8_semilla=*`)—. Elegir 0.80 sobre 0.75 no es, entonces, un
+resultado de este barrido: es una decisión de criterio, en la dirección que
+`P-05` pide (ante empate de evidencia, más margen contra la migración
+silenciosa, no menos), registrada como tal en `08_RULES` R-030 y
+`01_PRODUCT_PRINCIPLES` P-05.
+
+### Barrido `--contexto` × `--semilla` (R-001, §4.4)
+
+La longitud de prefijo/sufijo es la palanca contra la **ambigüedad
+literal** (§4.4), no contra el %FP: el %FP en esta obra está dominado por el
+artefacto de §4.7 (correcciones ortográficas que la cita atraviesa), que no
+tiene nada que ver con cuánto contexto se agrega alrededor de la cita. Por
+eso la lectura de esta tabla es `migrada_mal_ambiguedad` y `huérfanas
+evitables`; el %FP se deja de referencia y no se usa para decidir R-001.
+
+Corrida sobre *El almohadón de pluma* (la misma obra y el mismo par de
+revisiones de §2), `n=200`, `umbral=0.80` fijo (el valor ya decidido por
+R-030), `--contexto` en 16/32/64/128, tres semillas por celda:
+
+| contexto | media %migrada_mal_ambiguedad | media %huérfanas evitables | media %FP (referencia, §4.7) |
+|---|---|---|---|
+| 16 | 0.0% | 0.17% | 3.17% |
+| 32 | 0.0% | 0.17% | 3.17% |
+| 64 | 0.0% | 1.0% | 3.17% |
+| 128 | 0.0% | 3.67% | 3.0% |
+
+Detalle por celda (12 corridas) en `spikes/r03/barrido_contexto.json`.
+
+`migrada_mal_ambiguedad` da 0.0% en las cuatro longitudes: esta obra, en
+esta ventana de revisiones, no tiene un caso de ambigüedad literal que 16
+caracteres de contexto ya no resuelvan. Lo que sí responde a `--contexto`
+son las huérfanas evitables, y en la dirección contraria a la esperada:
+suben con más contexto (0.17% en 16/32, hasta 3.67% en 128) en vez de
+bajar. Más contexto no es gratis: agrandar prefijo+cita+sufijo hace más
+improbable que la ventana completa siga coincidiendo con `ratio ≥ umbral`
+después de una edición cercana, así que el reanclaje difuso pierde
+candidatos que con menos contexto encontraba. `umbral_confianza` (R-030) ya
+está fijado sobre el patrón completo (prefijo+cita+sufijo): un contexto más
+largo compite con ese mismo umbral por el mismo motivo que §4.7 describe
+para la cita sola.
+
+**Lo que esta corrida no puede decidir por sí sola:** con `migrada_mal_ambiguedad`
+en 0.0% en las cuatro celdas, esta obra no ofrece evidencia para *subir*
+`--contexto` por encima de 32 — y sí ofrece evidencia en contra, en las
+huérfanas evitables. Para ver la ambigüedad literal responder a `--contexto`
+hace falta una obra con fragmentos repetidos dentro de la ventana de
+revisiones tocada, que ésta no tiene en cantidad. El valor de R-001 queda
+sin fijar acá a propósito (decisión de criterio del operador, no de este
+barrido).
+
 ### Prueba de humo del instrumento (no es el resultado)
 
 Corrida sobre texto sintético con erratas fabricadas, sólo para verificar que el
@@ -154,10 +211,13 @@ revisiones que reescriban prosa (no sólo erratas) — el criterio corregido
 positivo *de verdad* —ancla que aterriza en un pasaje que un lector no
 reconocería como el mismo— sería más probable.
 
-`umbral_confianza = 0.80` (ver §4.7 y `08_RULES` R-030): en el barrido, 0.75 y
-0.8 empatan en el punto más bajo de FP medido (3.17%) con la misma tasa de
-huérfanas evitables (0.17%); 0.8 da más margen sin costo adicional medido en
-este rango, así que gana el empate.
+`umbral_confianza = 0.80` (ver §4.7 y `08_RULES` R-030): el barrido descarta
+0.6 (más FP) y 0.9 (más huérfanas evitables), pero entre 0.75 y 0.8 no
+decide nada —las celdas son idénticas semilla por semilla, no sólo en la
+media—. 0.80 es una elección de criterio dentro del rango que el barrido
+valida, en la dirección que `P-05` pide (más margen contra la migración
+silenciosa ante evidencia empatada), no un resultado que el barrido produzca
+por sí solo.
 
 ---
 

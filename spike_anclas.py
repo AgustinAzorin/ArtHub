@@ -1037,6 +1037,58 @@ def run_barrido(text_a: str, text_b: str, n: int, contexto: int, base_seed: int,
     print(f"\nJSON completo (todas las celdas) en: {json_path}")
 
 
+def run_barrido_contexto(text_a: str, text_b: str, n: int, umbral: float, base_seed: int, meta: dict, json_path: str) -> None:
+    """03_SPIKE §4.4 / tarea del registro: la longitud de prefijo+sufijo
+    (--contexto) es la palanca contra la ambigüedad literal, no contra el
+    %FP —que en esta obra está dominado por el artefacto de §4.7 y no se
+    mueve con contexto—. Umbral fijo en el valor ya decidido por R-030
+    (0.80): esto no vuelve a barrer umbral, barre contexto a umbral fijo.
+    """
+    contextos = [16, 32, 64, 128]
+    semillas = [base_seed, base_seed + 1, base_seed + 2]
+
+    filas = []
+    detalle = {}
+    for c in contextos:
+        for s in semillas:
+            res = run_experiment(text_a, text_b, n, umbral, s, c)
+            resumen = res["resumen"]
+            cf = resumen["criterio_fracaso"]
+            filas.append({
+                "contexto": c, "semilla": s,
+                "migrada_mal_ambiguedad_pct": resumen["porcentajes"]["migrada_mal_ambiguedad"],
+                "huerfanas_evitables_pct": cf["huerfanas_evitables_pct"],
+                "fp_desvio_mayor_50_pct": cf["fp_desvio_mayor_50_pct"],
+            })
+            detalle[f"contexto={c}_semilla={s}"] = resumen
+
+    print("=== BARRIDO --contexto x --semilla, umbral fijo (R-001 / 03_SPIKE §4.4) ===\n")
+    print("| contexto | semilla | %migrada_mal_ambiguedad | %huérfanas evitables | %FP desvío>50 (referencia, §4.7) |")
+    print("|---|---|---|---|---|")
+    for fila in filas:
+        print(
+            f"| {fila['contexto']} | {fila['semilla']} | {fila['migrada_mal_ambiguedad_pct']}% | "
+            f"{fila['huerfanas_evitables_pct']}% | {fila['fp_desvio_mayor_50_pct']}% |"
+        )
+
+    print("\n| contexto | media %migrada_mal_ambiguedad | media %huérfanas evitables | media %FP (referencia) |")
+    print("|---|---|---|---|")
+    for c in contextos:
+        filas_c = [f for f in filas if f["contexto"] == c]
+        media_amb = round(sum(f["migrada_mal_ambiguedad_pct"] for f in filas_c) / len(filas_c), 2)
+        media_ev = round(sum(f["huerfanas_evitables_pct"] for f in filas_c) / len(filas_c), 2)
+        media_fp = round(sum(f["fp_desvio_mayor_50_pct"] for f in filas_c) / len(filas_c), 2)
+        print(f"| {c} | {media_amb}% | {media_ev}% | {media_fp}% |")
+
+    write_json(json_path, {
+        "meta": meta,
+        "parametros": {"n": n, "umbral": umbral, "contextos": contextos, "semillas": semillas},
+        "barrido": filas,
+        "detalle_por_celda": detalle,
+    })
+    print(f"\nJSON completo (todas las celdas) en: {json_path}")
+
+
 def cmd_correr(args: argparse.Namespace) -> None:
     with open(args.a, encoding="utf-8") as f:
         text_a = f.read()
@@ -1046,6 +1098,10 @@ def cmd_correr(args: argparse.Namespace) -> None:
 
     if args.barrido:
         run_barrido(text_a, text_b, args.n, args.contexto, args.semilla, meta, args.json)
+        return
+
+    if args.barrido_contexto:
+        run_barrido_contexto(text_a, text_b, args.n, args.umbral, args.semilla, meta, args.json)
         return
 
     result = run_experiment(text_a, text_b, args.n, args.umbral, args.semilla, args.contexto)
@@ -1164,6 +1220,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_correr.add_argument("--contexto", type=int, default=32)
     p_correr.add_argument("--json", default="resultado.json")
     p_correr.add_argument("--barrido", action="store_true", help="BLOQUE 8: matriz --umbral x 3 semillas en vez de una corrida sola")
+    p_correr.add_argument("--barrido-contexto", dest="barrido_contexto", action="store_true", help="matriz --contexto (16/32/64/128) x 3 semillas, a umbral fijo (R-001 / 03_SPIKE §4.4); ignora --contexto suelto")
     p_correr.set_defaults(func=cmd_correr)
 
     p_sondeo = sub.add_parser("sondeo", help="R-04: sondeo de obras candidatas de Wikisource")

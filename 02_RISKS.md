@@ -96,7 +96,57 @@ El empate se rompe por **reversibilidad**: gana el que no se puede arreglar desp
 4. Reanclar sobre A+k: hash por bloque, posición primero, y concordancia difusa con prefijo y sufijo cuando la posición falla.
 5. Contar tres cosas: % migradas con confianza alta, % huérfanas, **% migradas mal**.
 
-**Criterio de fracaso.** Falsos positivos por encima del 1% invalidan el umbral de confianza o el mecanismo entero. Huérfanos por encima del 10% en correcciones de errata típicas significa que el reanclaje no alcanza y hay que rediseñar antes de escribir una línea de esquema.
+**Criterio de fracaso — corregido por `03_SPIKE_anclas.md §4.3, §4.4 y §4.7` tras
+correr el spike; la versión de arriba fue la que se escribió antes de construir
+el arnés y no sobrevivió a la primera corrida real.**
+
+No todo huérfano cuenta como falla, y no todo "migró mal" cuenta como falso
+positivo:
+
+- **Huérfano no es lo mismo que falla (§4.3).** Si el pasaje fue borrado o
+  reescrito, quedar huérfana es la respuesta correcta y es lo que `P-05`
+  exige. Sólo cuenta contra el criterio la huérfana **evitable**: el texto
+  seguía existiendo en la versión nueva y el reanclaje no lo encontró. El
+  10% se mide sobre huérfanas evitables, no sobre huérfanas totales.
+- **"Migró mal" necesita distancia, no un booleano (§4.4).** Una migración
+  desviada un puñado de caracteres no es la falla que este criterio existe
+  para atrapar; una desviada varios cientos, sí. El 1% se mide sobre falsos
+  positivos con desvío grande (el arnés usa >50 caracteres, con histograma
+  completo para auditar el corte), no sobre cualquier desvío distinto de
+  cero. Aparte, y sin contar contra el 1%: una migración que cae sobre
+  **otra ocurrencia literal idéntica** de la misma cita es ambigüedad del
+  texto, no un bug del mecanismo — se mide aparte (`migrada_mal_ambiguedad`)
+  y se corrige con más contexto (`R-001`), no con mejor concordancia.
+- **La verdad de campo tiene que tolerar una edición de bajo costo dentro de
+  la cita (§4.7).** Contar "existió en B" carácter a carácter cuenta como
+  falso positivo una migración que aterrizó exactamente donde correspondía,
+  si la cita atraviesa el carácter mismo que una corrección humana cambió
+  (una mayúscula, una grafía antigua). Sin este ajuste, cualquier obra cuyas
+  ediciones reales sean mayoritariamente ortográficas infla el %FP con el
+  mismo artefacto de medición, no importa qué tan bien migre el mecanismo.
+
+**El porcentaje se cuenta sobre bloques tocados, no sobre anclas.** Las ~200
+anclas de una corrida se generan solapadas sobre los mismos bloques
+cambiados (`generate_anchors` carga a propósito la mitad de las estrategias
+sobre bloques "tocados": editados o borrados); no son 200 eventos
+independientes, son ~200 ventanas sobre el mismo puñado de correcciones. En
+una obra de 32 bloques con sólo 3 cambiados, seis anclas solapadas sobre una
+sola corrección de un carácter (el caso real de `03_SPIKE §4.7`) ya valen
+3% del total — el umbral del 1% es **inalcanzable por construcción** en una
+obra de ese tamaño: hace falta una sola corrección tocada por más de dos
+anclas para superarlo, y con ~200 anclas sobre ~3 bloques cambiados eso es
+casi seguro, migre bien o mal el mecanismo. El número que hay que mirar no
+es "% de las 200 anclas", es cuántos **bloques** (o cuántas correcciones
+distintas) produjeron al menos un falso positivo con desvío grande, sobre el
+total de bloques tocados — el criterio numérico original medía la unidad
+equivocada.
+
+**Criterio de fracaso, redactado:** más del 1% de las **correcciones
+tocadas** (no de las anclas) produce al menos una migración con desvío
+grande sobre una cita que sobrevivió (más allá de una edición de bajo costo,
+§4.7), o más del 10% de las anclas quedan **huérfanas evitables**. Cualquiera
+de las dos condiciones significa que el reanclaje no alcanza y hay que
+rediseñar antes de escribir una línea de esquema.
 
 **Hallazgo que este experimento va a forzar a P-05.** El principio prohíbe que un hilo desaparezca en silencio, pero no dice nada del fallo peor: un ancla que migra al pasaje equivocado no desaparece, miente, y nadie se entera nunca. `P-05` necesita un MUST sobre falsos positivos —umbral de confianza explícito, y ante la duda huérfano visible antes que migración— y este spike es el que da el número para fijarlo.
 
@@ -136,3 +186,4 @@ Este archivo se revisa al cerrar la Fase 2 y después en cada reevaluación trim
 | Fecha | Cambio | Motivo |
 |---|---|---|
 | 2026-09 | Versión inicial | Fase 1 |
+| 2026-09-08 | R-03: criterio de fracaso reescrito (huérfana evitable, no cualquier huérfana; desvío grande, no cualquier desvío; verdad de campo tolerante a edición de bajo costo; el % se cuenta sobre correcciones/bloques tocados, no sobre anclas) | Correr `03_SPIKE_anclas.md` §4.3, §4.4 y §4.7 mostró que el criterio original medía la unidad equivocada y era inalcanzable por construcción en una obra chica |

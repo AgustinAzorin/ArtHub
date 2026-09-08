@@ -264,11 +264,17 @@ IF   confianza_migracion < umbral_confianza  OR  hay empate entre dos candidatos
 THEN el ancla queda huerfana visible
 ELSE nunca se migra "por las dudas"
 ```
-`umbral_confianza = 0.80`. Fijado por el barrido `--umbral` × `--semilla` de
-`03_SPIKE §2`/§6 sobre una obra real (*El almohadón de pluma*, Quiroga): 0.75
-y 0.8 empatan en el punto más bajo de falsos positivos medido (3.17% de
-media) con la misma tasa de huérfanas evitables (0.17%); gana 0.8 por dar más
-margen sin costo adicional en ese empate. **Condición de `03_SPIKE §3`:**
+`umbral_confianza = 0.80`. El barrido `--umbral` × `--semilla` de `03_SPIKE
+§2`/§6 sobre una obra real (*El almohadón de pluma*, Quiroga) descarta 0.6
+(más falsos positivos: 4.17% de media contra 3.17%) y descarta 0.9 (más
+huérfanas evitables: 0.83% contra 0.17%), pero **no puede separar 0.75 de
+0.8**: las celdas dan el mismo número, semilla por semilla, no sólo en la
+media (`spikes/r03/barrido_resultado.json`). Elegir 0.80 en vez de 0.75 no
+es, entonces, un resultado del barrido — es una decisión de criterio, en la
+dirección que `P-05` pide (ante evidencia empatada, más margen contra la
+migración silenciosa, nunca menos). El barrido sí hace su trabajo: fija el
+rango razonable (0.75–0.8) y descarta los extremos; dentro de ese rango,
+0.80 lo decide el operador, no el número. **Condición de `03_SPIKE §3`:**
 este número corrió sólo contra una obra cuyas ediciones reales fueron
 mayoritariamente ortográficas; falta correrlo contra una obra con revisiones
 que reescriban prosa antes de darlo por cerrado en producción.
@@ -429,11 +435,14 @@ Mismo criterio que `06_MODELO_DOMINIO §8`: se nombran, no se inventan.
 | Valor de `tope_caracteres` en R-005 | Los párrafos reales de las tres obras |
 | Longitud de prefijo/sufijo (R-001) | El mismo spike: es la palanca contra la ambigüedad literal |
 
-`umbral_confianza` de R-030 ya no está pendiente: `0.80`, fijado por el
-barrido real de `03_SPIKE §2`/§6 (con la condición anotada en R-030 sobre
-volver a correrlo contra una obra con reescritura de prosa). Las dos
-restantes son técnicas: la longitud de prefijo/sufijo la destraba el mismo
-spike variando `--contexto`, todavía no corrido; `tope_caracteres` no es
+`umbral_confianza` de R-030 ya no está pendiente: `0.80`, elegido dentro del
+rango 0.75–0.8 que valida el barrido real de `03_SPIKE §2`/§6 —el barrido no
+distingue esos dos valores; ver la justificación corregida en R-030— con la
+condición anotada en R-030 sobre volver a correrlo contra una obra con
+reescritura de prosa. Las dos restantes son técnicas: la longitud de
+prefijo/sufijo (R-001) ya tiene el barrido `--contexto` corrido en
+`03_SPIKE §2` (16/32/64/128 × 3 semillas), pero el valor sigue pendiente —el
+barrido no lo fija por sí solo, lo mira el operador; `tope_caracteres` no es
 parte de R-03.
 
 ---
@@ -466,3 +475,4 @@ Los casos borde del mecanismo central (reanclaje) se escriben **antes** de imple
 | 2026-09-08 | R-049: aclarado que los mensajes anonimizados NO se congelan contra edición retroactiva; no se agrega regla de bloqueo | Decisión del operador |
 | 2026-09-08 | R-048 movida de §5 (Catálogo y legalidad) a §6, nueva (Licencias y datos); §§6–11 anteriores renumeradas a §§7–12 | La licencia de las anotaciones no es catálogo de obras: es dato de usuario |
 | 2026-09-08 | R-030: `umbral_confianza` fijado en `0.80`; sacado de la tabla de pendientes de §10 | Barrido real de `03_SPIKE_anclas.md §2`/§6 sobre *El almohadón de pluma* |
+| 2026-09-08 | R-030: corregida la justificación de `0.80` — el barrido descarta 0.6 y 0.9 pero no distingue 0.75 de 0.8 (celdas idénticas por semilla, no sólo la media); 0.80 es decisión de criterio dentro de ese rango, no resultado del barrido | El barrido no soporta la lectura anterior ("0.75 y 0.8 empatan, gana 0.8"): esa redacción sugería un desempate numérico que las celdas no dan |
