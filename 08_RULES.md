@@ -308,6 +308,16 @@ AND  se emite edicion.default_cambiado
 ```
 Mueve el tráfico entre silos de traducción: es decisión de producto, no de catálogo.
 
+**R-048 — Licencia de las anotaciones** (`00_CONSTRAINTS §4`)
+```
+IF   una persona publica un comentario o un mensaje en un hilo
+THEN conserva su copyright sobre ese texto y otorga una licencia CC BY-SA 4.0
+     irrevocable al publicarlo
+ELSE cualquier exportación del grafo (00_CONSTRAINTS §5) sale bajo la misma
+     licencia, con atribución por autor
+```
+Decidido: candidata cerrada. Cláusula completa en `TERMINOS.md`.
+
 ---
 
 ## 6. Notificaciones: el único mecanismo de retorno
@@ -394,10 +404,9 @@ Mismo criterio que `06_MODELO_DOMINIO §8`: se nombran, no se inventan.
 | Valor de `umbral_confianza` en R-030 | Barrido de `--umbral` de `03_SPIKE §6` |
 | Valor de `tope_caracteres` en R-005 | Los párrafos reales de las tres obras |
 | Longitud de prefijo/sufijo (R-001) | El mismo spike: es la palanca contra la ambigüedad literal |
-| **Baja de cuenta** (`I-CU-3`) | **Decisión de producto pendiente y bloqueante para los términos.** Retirar los mensajes agujerea los hilos; dejarlos con autoría neutra le saca a la persona el control de su prosa. Hay que elegir antes del primer usuario, igual que la licencia de las anotaciones |
-| Licencia de las anotaciones | `00_CONSTRAINTS §4`. Candidata CC BY-SA. Si no se fija antes del primer usuario, abrir el grafo después es imposible |
+| **Baja de cuenta** (`I-CU-3`) | **Decisión de producto pendiente y bloqueante para los términos.** Retirar los mensajes agujerea los hilos; dejarlos con autoría neutra le saca a la persona el control de su prosa. Hay que elegir antes del primer usuario |
 
-Las dos últimas no son técnicas y no las destraba ningún experimento: **las destraba sentarse a decidirlas.** Son, hoy, las dos decisiones más baratas y más urgentes de todo el proyecto.
+La última no es técnica y no la destraba ningún experimento: **la destraba sentarse a decidirla.** Es, hoy, la decisión más barata y más urgente que queda pendiente.
 
 ---
 
@@ -424,3 +433,4 @@ Los casos borde del mecanismo central (reanclaje) se escriben **antes** de imple
 |---|---|---|
 | 2026-09 | Versión inicial | Fase 6, escrita antes de la Fase 2 |
 | 2026-09-09 | + R-047 (slug de ancla no se reusa) en §1 | Corrección de `09_SLICE_1 §8` |
+| 2026-09-09 | + R-048 (licencia de las anotaciones) en §5; sacada de la tabla de pendientes de §9 | D de licencia |

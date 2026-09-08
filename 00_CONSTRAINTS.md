@@ -57,7 +57,7 @@ Si la puerta social no se cumple, hay dos salidas legítimas y ninguna es "segui
 - **Jurisdicción declarada:** Argentina, Ley 11.723. Plazo general: 70 años desde el 1 de enero siguiente a la muerte del autor. Fotografía y obra cinematográfica tienen plazos propios y distintos: **verificar antes de tocar esos formatos** (afecta a la etapa 3 y 4 de la hoja de ruta, no a la v1).
 - **Verificación por obra, con evidencia registrada** (autor, fecha de muerte, fuente consultada, quién verificó, cuándo). Sin ese registro, la obra no se publica. Es una restricción de proceso: cada obra cuesta minutos de verificación, y eso limita la velocidad de la biblioteca más que el parser.
 - **Derecho moral:** perpetuo e irrenunciable. Atribución siempre, integridad del texto siempre, incluso en obra de dominio público.
-- **Licencia de las anotaciones:** se fija en los términos **antes del primer usuario**. Candidata: CC BY-SA. Si no se fija ahora, publicar el grafo más adelante exige el permiso individual de cada persona que anotó, o sea, es imposible.
+- **Licencia de las anotaciones:** decidido. Los comentarios y los hilos de los usuarios se publican bajo **CC BY-SA 4.0** (https://creativecommons.org/licenses/by-sa/4.0/deed.es), enlazada desde los términos. Ver `08_RULES §5` (R-048) y `TERMINOS.md`.
 - **Datos personales (Ley 25.326):** se recolecta correo y seudónimo, nada más. Minimizar no es una preferencia estética, es lo que hace que una brecha sea un mal día y no un problema legal.
 - **Menores — decisión pendiente y bloqueante para el canal aulas.** El canon escolar argentino es el mejor material disponible, pero un aula secundaria significa datos de menores, consentimiento de tutores y un régimen distinto. Propuesta: **edad mínima declarada y aulas sólo de nivel terciario/universitario en la v1**, y el nivel medio recién con el marco resuelto. `[CONFIRMAR]`
 - **Responsable:** una persona física identificable, con correo de contacto y proceso de bajada publicados desde el día uno. El riesgo de la sección 12.5 del concepto es personal, no societario.
@@ -86,3 +86,12 @@ Esto también es defensa, no sólo higiene: nadie razonable invierte tres años 
 - No se integran catálogos con licencia (Spotify y similares).
 - Biblioteca inicial **en español y elegida por facilidad de parseo**, no por prestigio. El modelo es multilingüe; el catálogo del primer año, no.
 - v1 es sólo texto.
+
+---
+
+## 7. Registro
+
+| Fecha | Cambio | Motivo |
+|---|---|---|
+| 2026-09 | Versión inicial | Fase 0 |
+| 2026-09-09 | §4: licencia de las anotaciones decidida — CC BY-SA 4.0 | D de licencia |
