@@ -169,7 +169,7 @@ Tipo **I**: publica una URL y fija la forma canónica del pasaje.
 ALCANCE: /pasaje/<slug> renderizado en servidor.
 SPECS: 07_API §1 (contrato), §9.2 (SSR); 06_MODELO_DOMINIO §5;
        08_RULES R-026; 09_SLICE_1 D-03, D-06, I-AN-7.
-       Ante conflicto: 08_RULES > 07_API > 06_MODELO_DOMINIO.
+       Ante conflicto: 06_MODELO_DOMINIO > 08_RULES > 07_API.
 FUERA: ningún endpoint de escritura. Sin JS. Sin CSS más allá de
        legibilidad. No tocar el normalizador ni la ingesta.
 ARCHIVOS: rutas de pasaje, plantilla, consulta. Nada más.
@@ -246,3 +246,4 @@ Las de `PLANIFICAR_PROYECTO`, sin cambios, más una:
 | Fecha | Cambio | Motivo |
 |---|---|---|
 | 2026-09 | Versión inicial | Fase 10, escrita con `R-01`, `R-02` y `R-03` todavía sin correr |
+| 2026-09-08 | §4: corregido el orden de prioridad del ejemplo a `06_MODELO_DOMINIO > 08_RULES > 07_API` | Contradecía el orden declarado en `CLAUDE.md §2` y en el encabezado de `08_RULES` |
