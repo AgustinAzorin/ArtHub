@@ -156,6 +156,15 @@ ELSE no existe campo de contraseña, ni hashing, ni recuperación, ni pantalla d
 Se recolecta correo y seudónimo. Nada más. No hay campo de nombre real.
 ```
 
+**R-049 — Baja de cuenta: anonimizar, no retirar** (`I-CU-3`, `P-05`)
+```
+IF   una cuenta se da de baja
+THEN los mensajes que escribió permanecen en sus hilos, con autoría reemplazada
+     por un seudónimo neutro estable
+ELSE nunca se retiran: agujerear un hilo ajeno por la baja de un tercero viola P-05
+```
+Decidido. Qué otro dato se borra (correo, sesiones, preferencias) está en `07_API §4`.
+
 ---
 
 ## 3. Lectura, orden y ausencia de puntaje
@@ -404,9 +413,8 @@ Mismo criterio que `06_MODELO_DOMINIO §8`: se nombran, no se inventan.
 | Valor de `umbral_confianza` en R-030 | Barrido de `--umbral` de `03_SPIKE §6` |
 | Valor de `tope_caracteres` en R-005 | Los párrafos reales de las tres obras |
 | Longitud de prefijo/sufijo (R-001) | El mismo spike: es la palanca contra la ambigüedad literal |
-| **Baja de cuenta** (`I-CU-3`) | **Decisión de producto pendiente y bloqueante para los términos.** Retirar los mensajes agujerea los hilos; dejarlos con autoría neutra le saca a la persona el control de su prosa. Hay que elegir antes del primer usuario |
 
-La última no es técnica y no la destraba ningún experimento: **la destraba sentarse a decidirla.** Es, hoy, la decisión más barata y más urgente que queda pendiente.
+Las tres son técnicas: las destraba el barrido de `03_SPIKE §6`, no una decisión de producto.
 
 ---
 
@@ -434,3 +442,4 @@ Los casos borde del mecanismo central (reanclaje) se escriben **antes** de imple
 | 2026-09 | Versión inicial | Fase 6, escrita antes de la Fase 2 |
 | 2026-09-09 | + R-047 (slug de ancla no se reusa) en §1 | Corrección de `09_SLICE_1 §8` |
 | 2026-09-09 | + R-048 (licencia de las anotaciones) en §5; sacada de la tabla de pendientes de §9 | D de licencia |
+| 2026-09-09 | + R-049 (baja de cuenta: anonimizar) en §2; sacada de la tabla de pendientes de §9 | D de baja |
