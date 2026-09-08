@@ -2,11 +2,22 @@
 
 *artHUB — Fase 2. Versión 0.1, septiembre 2026. Spike de R-03.*
 
-> **Estado: arnés construido, experimento sin correr.** Las secciones 2 y 3 están
-> vacías a propósito. Un spike sin números no es un spike, es una spec sobre algo
-> que todavía no sabés si funciona, que es exactamente lo que `PLANIFICAR_PROYECTO`
-> prohíbe. Lo que sí existe ya es el instrumento, y construirlo forzó seis
-> decisiones de diseño que están en la sección 4.
+> **Estado: arnés construido y calibrado, experimento real sin correr.** Las
+> secciones 2 y 3 están vacías a propósito. Un spike sin números no es un spike,
+> es una spec sobre algo que todavía no sabés si funciona, que es exactamente lo
+> que `PLANIFICAR_PROYECTO` prohíbe. Lo que sí existe ya es `spike_anclas.py`
+> completo (los ocho bloques de la tarea de construcción: verdad de campo,
+> bloques e identificadores, anclas, reanclaje, clasificación de seis
+> categorías, CLI de cuatro subcomandos, salida JSON+tabla, barrido de
+> umbral×semilla), y construirlo forzó las seis decisiones de diseño que están
+> en la sección 4. `python3 spike_anclas.py humo` corre limpio y su
+> autoverificación de construcción (60/9/3/1 bloques) cierra exacta contra lo
+> que `align_blocks` detecta por hash. `traer` y `sondeo` (Wikisource real)
+> están escritos contra la API de MediaWiki pero **no se probaron de punta a
+> punta**: la política de red de este entorno de agente bloquea
+> `es.wikisource.org` (403 del proxy de salida), así que la corrida real de
+> R-03 —y el número que completa la sección 2— queda para correrla donde haya
+> salida a internet.
 
 ---
 
