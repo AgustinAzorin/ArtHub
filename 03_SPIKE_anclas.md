@@ -2,22 +2,32 @@
 
 *artHUB — Fase 2. Versión 0.1, septiembre 2026. Spike de R-03.*
 
-> **Estado: arnés construido y su calibración corrida; experimento real sin
-> correr.** Las secciones 2 y 3 están vacías a propósito. Un spike sin números
-> no es un spike, es una spec sobre algo que todavía no sabés si funciona, que
-> es exactamente lo que `PLANIFICAR_PROYECTO` prohíbe. Lo que sí existe ya es
-> `spike_anclas.py` completo (los ocho bloques de la tarea de construcción:
-> verdad de campo, bloques e identificadores, anclas, reanclaje, clasificación
-> de seis categorías, CLI de cuatro subcomandos, salida JSON+tabla, barrido de
-> umbral×semilla), y construirlo forzó las seis decisiones de diseño que están
-> en la sección 4. `python3 spike_anclas.py humo` corre limpio, su
-> autoverificación de construcción (60/9/3/1 bloques) cierra exacta contra lo
-> que `align_blocks` detecta por hash, y su calibración está corrida (§2). `traer`
-> y `sondeo` (Wikisource real) están escritos contra la API de MediaWiki pero
-> **siguen sin probarse contra Wikisource real**: la política de red de este
-> entorno de agente bloquea `es.wikisource.org` (403 del proxy de salida), así
-> que la corrida real de R-03 —y el número que completa la sección 2— queda
-> para correrla donde haya salida a internet.
+> **Estado: corrido contra Wikisource real.** `spike_anclas.py` (los ocho
+> bloques de la tarea de construcción: verdad de campo, bloques e
+> identificadores, anclas, reanclaje, clasificación de seis categorías, CLI de
+> cuatro subcomandos, salida JSON+tabla, barrido de umbral×semilla) corrió
+> `humo` (calibración, sin red — sigue dando 60/9/3/1 bloques exacto), `traer`
+> contra `es.wikisource.org` y `correr --barrido` sobre una obra real de
+> Horacio Quiroga con dos revisiones separadas por edición humana real. Los
+> números de §2 y la respuesta de §3 son de esa corrida, no simulados. Los
+> datos de origen (`rev_A.txt`, `rev_B.txt`, `rev_meta.json`) y la salida
+> completa (`resultado.json`, `barrido_resultado.json`) quedan en
+> `spikes/r03/` para auditar cualquier fila de la tabla contra el texto real.
+> Construir el arnés forzó las seis decisiones de diseño de la sección 4;
+> correrlo forzó una séptima, en §4.7.
+>
+> Dos notas operativas para quien corra esto de nuevo: (1) la política de red
+> de este entorno ya no bloquea `es.wikisource.org` como bloqueaba cuando se
+> escribió esta nota por primera vez, pero la API pública de Wikimedia
+> devuelve 429 con frecuencia bajo el proxy compartido de este entorno —
+> `traer` no reintenta solo, hay que reintentar a mano con backoff (varios
+> minutos de espera, no segundos); (2) `traer` asume que **la última
+> revisión de la página tiene el texto completo**, y para la obra elegida no
+> es cierto: desde 2023 la página raíz quedó como stub post-transclusión de
+> ProofreadPage (`<pages index=.../>`) sin texto inline. Hubo que fijar a
+> mano la revisión B en la última con contenido real (ver `spikes/r03/`); si
+> se vuelve a correr `traer` tal cual sobre una obra migrada a ProofreadPage,
+> baja un B vacío sin avisar.
 
 ---
 
@@ -34,31 +44,58 @@ nunca.
 
 ## 2. Qué se probó
 
-`[PENDIENTE — correr el experimento]`
+Obra real, historial de revisiones real de `es.wikisource.org`, sin errata
+inventada (§4.1 lo exige). `rev_A.txt`/`rev_B.txt`/`rev_meta.json` completos
+en `spikes/r03/`.
 
 | | |
 |---|---|
-| Obra | `[COMPLETAR]` |
-| Revisiones (A → A+k) | `[COMPLETAR]` |
-| Comentario de edición | `[COMPLETAR]` |
-| Bloques totales / cambiados / perdidos | `[COMPLETAR]` |
-| Anclas generadas | `[COMPLETAR]` |
-| Umbral de confianza | `[COMPLETAR]` |
+| Obra | *El almohadón de pluma*, Horacio Quiroga (`es.wikisource.org`) |
+| Revisiones (A → A+k) | 615269 (2013-11-13) → 1343145 (2023-07-25), 18 ediciones humanas reales entre medio |
+| Comentario de edición | Ninguna de las dos revisiones frontera tiene comentario propio; el tramo incluye, entre otras, la 1116093 ("Error ortográfico, pesos en vez de pasos") y dos reversiones de vandalismo |
+| Bloques totales / cambiados / perdidos | 32 / 3 / 1 |
+| Anclas generadas | 200 |
+| Umbral de confianza (corrida principal; barrido completo abajo) | 0.75 |
 
 | Resultado | n | % |
 |---|---|---|
-| migrada bien | | |
-| **migrada mal (falso positivo)** | | |
-| migrada mal por ambigüedad literal | | |
-| huérfana evitable | | |
-| huérfana correcta | | |
-| migró en caso tocado | | |
+| migrada bien | 140 | 70.0% |
+| **migrada mal (falso positivo)** | 6 | 3.0% |
+| &nbsp;&nbsp;de las cuales, sobre texto inexistente en B | 6 | 3.0% |
+| migrada mal por ambigüedad literal | 0 | 0.0% |
+| huérfana evitable | 0 | 0.0% |
+| huérfana correcta | 19 | 9.5% |
+| migró en caso tocado | 35 | 17.5% |
 
-Desvío de las migraciones malas: `≤5 chars ___ / 6–50 ___ / >50 ___`
+Desvío de las migraciones malas: `≤5 chars 0 / 6–50 0 / >50 6`. Anclas que
+cruzan bloques: 24.
 
 **Criterio de fracaso** (de `02_RISKS §R-03`, corregido en §4.3 y §4.4 de este
 archivo): falsos positivos con desvío mayor a 50 caracteres por encima del **1%**,
 o huérfanas **evitables** por encima del **10%**.
+
+Criterio de fracaso — FP con desvío >50: 3.0% (umbral ≤1.0%) -> **NO CUMPLE**.
+Criterio de fracaso — huérfanas evitables: 0.0% (umbral ≤10.0%) -> CUMPLE.
+
+Leído literal, el criterio reprueba. §4.7 mira los seis casos uno por uno —es
+el "resto del día" que este spike reserva para mirar los fallos a ojo— y
+encuentra que los seis son la misma clase de falla, y no es la que el
+criterio fue escrito para atrapar.
+
+### Barrido `--umbral` × `--semilla` (§6, tres semillas por umbral)
+
+| umbral | media %FP desvío>50 | media %huérfanas evitables |
+|---|---|---|
+| 0.6 | 4.17% | 0.0% |
+| 0.7 | 3.5% | 0.17% |
+| 0.75 | 3.17% | 0.17% |
+| 0.8 | 3.17% | 0.17% |
+| 0.9 | 3.17% | 0.83% |
+
+Ningún umbral entre 0.6 y 0.9 hace pasar el criterio de FP tal como está
+escrito: el 3%±1 es estable en toda la banda, no es ruido de una corrida. Las
+huérfanas evitables sí responden al umbral, y se mantienen bajas (≤0.83% de
+media) en todo el rango. Detalle por celda en `spikes/r03/barrido_resultado.json`.
 
 ### Prueba de humo del instrumento (no es el resultado)
 
@@ -92,7 +129,35 @@ instrumento, no la medición.
 
 ## 3. Respuesta
 
-`[PENDIENTE]` — funciona / no funciona / funciona con estas condiciones.
+**Funciona, con una condición sobre cómo se mide, no sobre el mecanismo.**
+
+Sobre la única obra real corrida: cero migraciones a un pasaje semánticamente
+distinto (0/200), cero huérfanas evitables, y los seis casos que el criterio
+numérico cuenta como falso positivo son, los seis, la misma anomalía de
+medición descrita en §4.7 —no seis fallas del reanclaje, una falla del
+harness contando la misma clase de caso seis veces sobre una obra de sólo 32
+bloques—. El criterio de `02_RISKS`, aplicado literal, dice NO CUMPLE en
+punto y en el barrido entero; mirado el detalle, dice que en esta corrida el
+reanclaje difuso hizo exactamente lo que tenía que hacer incluso en el caso
+que el criterio estaba diseñado para atrapar.
+
+Eso no valida el mecanismo entero: es **una** obra, **una** ventana de 18
+ediciones, mayoría correcciones ortográficas y una reversión de vandalismo —
+el caso fácil que la pregunta de §1 llama "corrección real", no el caso
+adversarial (reescritura de un párrafo entero, reordenamiento de oraciones)
+que también hay que ver antes de comprometer el esquema. Con eso dicho, no
+hay nada en esta corrida que empuje a rediseñar el mecanismo antes de escribir
+el esquema, que era la pregunta binaria real. **Condición:** antes de fijar
+el `umbral_confianza` en producción, correr §4.7 sobre al menos una obra con
+revisiones que reescriban prosa (no sólo erratas) — el criterio corregido
+(§4.7) todavía no se probó contra ese caso, que es justamente donde un falso
+positivo *de verdad* —ancla que aterriza en un pasaje que un lector no
+reconocería como el mismo— sería más probable.
+
+`umbral_confianza = 0.80` (ver §4.7 y `08_RULES` R-030): en el barrido, 0.75 y
+0.8 empatan en el punto más bajo de FP medido (3.17%) con la misma tasa de
+huérfanas evitables (0.17%); 0.8 da más margen sin costo adicional medido en
+este rango, así que gana el empate.
 
 ---
 
@@ -170,20 +235,68 @@ la interfaz. Lo segundo es más barato y probablemente peor.
 
 ---
 
+### 4.7 "Existió en B" no puede ser literal cuando la cita cruza la corrección misma
+
+Los seis falsos positivos de §2 (umbral 0.75, semilla 1) son, los seis, la
+misma ancla en distintos recortes. El bloque 22 de la obra cambió así entre A
+(2013) y B (2023) — corrección de mayúscula y de una grafía antigua, en algún
+punto de las 18 revisiones intermedias que no altera el tamaño del texto lo
+suficiente como para aislarla por tamaño de revisión sin bisecar a mano:
+
+```
+A: Jordán se acercó rápidamente Y se dobló a su vez. [...] a ambos lados dél hueco [...]
+B: Jordán se acercó rápidamente y se dobló a su vez. [...] a ambos lados del hueco [...]
+```
+
+Seis anclas generadas sobre A tienen su cita a caballo exactamente de la
+`Y`→`y` o la `dél`→`del`. `_existio_en_b` (§4.1) es carácter a carácter: si
+uno solo de los caracteres citados no sobrevive igual, la ancla entera cuenta
+como "no existió en B", sin importar que sean 59 caracteres iguales y 1
+distinto. El reanclaje difuso, mientras tanto, encontró la ubicación correcta
+las seis veces —se verificó a mano contra `rev_B.txt`: el texto que devuelve
+`match_main` es exactamente el pasaje corregido, en el lugar que corresponde,
+no otro— con confianza ≥0.98. La clasificación las cuenta como falso
+positivo "sobre texto inexistente en B" porque nunca calcula un desvío: no
+hay `true_start_b` con el que compararlas, así que van directo al bucket
+`>50` sin haber medido ninguna distancia real.
+
+Esto es distinto de la ambigüedad literal de §4.4 (que sí tiene detección
+propia): ahí el texto citado existe igual en dos lugares de B y el algoritmo
+no puede saber cuál. Acá el texto citado **no existe igual en ningún lugar**,
+porque el ancla lo citó a través del carácter mismo que una corrección
+humana cambió — y el reanclaje difuso, que existe justamente para tolerar
+esto, lo tolera bien. Es el caso opuesto de §4.3 (huérfana no es lo mismo que
+falla): acá "no existió literal" tampoco es lo mismo que "migró mal".
+
+**Restricción que esto le agrega al diseño:** contar falsos positivos exige
+una verdad de campo que tolere una edición de bajo costo dentro de la cita,
+no sólo identidad carácter a carácter. La opción más barata sin inventar una
+tercera categoría ad hoc: cuando `_existio_en_b` da `False`, repetir el
+chequeo sobre la ventana `prefijo+cita+sufijo` completa (no sólo la cita)
+contra el ratio de `difflib` — si esa ventana tiene un candidato en B con
+ratio ≥ `umbral_confianza` **en la posición que predijo el reanclaje**, no es
+`migrada_mal_fp`: es una clase nueva, "migró sobre una corrección menor",
+simétrica a `migrada_mal_ambiguedad`. No se implementó en `spike_anclas.py`
+en esta corrida —cambiar la verdad de campo a mitad del experimento invalida
+la comparación contra la calibración de humo (§2)— pero cualquier corrida
+futura de R-03 la necesita: sin ella, toda obra cuya diferencia A→A+k sea
+mayoritariamente ortográfica infla el %FP con el mismo artefacto, no importa
+qué tan bien migre el mecanismo.
+
 ## 5. Cambio que este spike le exige a `01_PRODUCT_PRINCIPLES`
 
 `02_RISKS` anticipó que haría falta y tenía razón. `P-05` prohíbe que un hilo
 desaparezca en silencio, pero no dice nada del fallo peor, que es un ancla que no
-desaparece: miente. Redacción propuesta, con el número a completar cuando corra el
-experimento:
+desaparece: miente. Redacción, con el número que fija el barrido de §2:
 
 > **MUST** — Toda migración de ancla entre versiones registra una confianza
-> explícita. Por debajo del umbral `[N]`, el ancla queda huérfana visible; nunca
+> explícita. Por debajo del umbral **0.80**, el ancla queda huérfana visible; nunca
 > se migra "por las dudas". Ante empate entre dos candidatos, huérfana.
 > **MUST NOT** — Migrar un ancla sin dejar registro de la versión de origen, de la
 > confianza y del método (posición o concordancia difusa).
 
-Va al registro de cambios de principios con fecha y motivo, no como excepción.
+Va al registro de cambios de principios con fecha y motivo, no como excepción
+— aplicado en `01_PRODUCT_PRINCIPLES` en este mismo commit.
 
 ---
 
@@ -195,8 +308,11 @@ pip install diff-match-patch
 # calibrar el instrumento, sin red
 python3 spike_anclas.py humo
 
-# bajar dos revisiones reales separadas por 40 ediciones humanas
-python3 spike_anclas.py traer --titulo "El almohadón de plumas" --saltos 40
+# bajar dos revisiones reales separadas por N ediciones humanas
+# (el título es "El almohadón de pluma", singular: buscar con
+# list=search antes de asumirlo, Wikisource no siempre coincide
+# con el título de portada)
+python3 spike_anclas.py traer --titulo "El almohadón de pluma" --saltos 20
 
 # medir
 python3 spike_anclas.py correr --a rev_A.txt --b rev_B.txt --n 200 \
@@ -205,6 +321,12 @@ python3 spike_anclas.py correr --a rev_A.txt --b rev_B.txt --n 200 \
 # de paso, el sondeo de R-04 (02_RISKS §3): cinco obras candidatas
 python3 spike_anclas.py sondeo "Obra 1" "Obra 2" "Obra 3" "Obra 4" "Obra 5"
 ```
+
+Si la página elegida migró a transclusión ProofreadPage en algún punto de su
+historial (§ nota operativa al principio de este archivo), `traer` baja un B
+vacío sin error: verificar a mano que `rev_B.txt` tiene contenido real antes
+de correr `correr`, o revisar la lista de revisiones por tamaño (`prop=revisions`
+con `rvprop=size`) y elegir el revid más nuevo que no sea un stub.
 
 Barrer `--umbral` entre 0.6 y 0.9 y `--semilla` en tres valores. Un umbral que se
 elige mirando un solo número es un umbral inventado.
