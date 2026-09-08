@@ -22,7 +22,7 @@
 El MVP tiene dos mitades: la de lectura (J-01, más el índice de hilos de
 `05_JOURNEYS §3`) y la de escritura (J-02 y J-03). El slice 1 es la primera, y
 no por ser "más fácil": por tres razones que salieron de cruzar los pendientes
-declarados en `06_MODELO_DOMINIO §8` y `08_RULES §9` contra los dos recorridos.
+declarados en `06_MODELO_DOMINIO §8` y `08_RULES §10` contra los dos recorridos.
 
 **Primera: todos los pendientes bloqueantes caen del lado de escribir.**
 

@@ -165,6 +165,11 @@ ELSE nunca se retiran: agujerear un hilo ajeno por la baja de un tercero viola P
 ```
 Decidido. Qué otro dato se borra (correo, sesiones, preferencias) está en `07_API §4`.
 
+Los mensajes anonimizados **no** quedan congelados contra edición retroactiva: la
+anonimización de autoría no agrega ninguna regla de bloqueo nueva sobre el
+contenido del mensaje, más allá de la que ya exista por otro motivo (`R-045`,
+ventana de edición). Decisión del operador.
+
 ---
 
 ## 3. Lectura, orden y ausencia de puntaje
@@ -317,6 +322,10 @@ AND  se emite edicion.default_cambiado
 ```
 Mueve el tráfico entre silos de traducción: es decisión de producto, no de catálogo.
 
+---
+
+## 6. Licencias y datos
+
 **R-048 — Licencia de las anotaciones** (`00_CONSTRAINTS §4`)
 ```
 IF   una persona publica un comentario o un mensaje en un hilo
@@ -329,7 +338,7 @@ Decidido: candidata cerrada. Cláusula completa en `TERMINOS.md`.
 
 ---
 
-## 6. Notificaciones: el único mecanismo de retorno
+## 7. Notificaciones: el único mecanismo de retorno
 
 **R-038 — Una respuesta, un correo** (`I-SU-3`, `05_JOURNEYS §5`)
 ```
@@ -368,7 +377,7 @@ Es el mejor indicador temprano de si el ágora está viva, mucho antes de que ha
 
 ---
 
-## 7. Moderación: conducta, no sentido
+## 8. Moderación: conducta, no sentido
 
 **R-043 — Qué se borra** (`P-07`)
 ```
@@ -392,7 +401,7 @@ Un hilo cuya primera intervención cambia de sentido tres días después rompe l
 
 ---
 
-## 8. Máquina
+## 9. Máquina
 
 **R-046 — Buscar sí, interpretar no** (`P-06`)
 ```
@@ -404,7 +413,7 @@ En la v1 no hay ninguna función de IA. La regla se escribe ahora porque el mome
 
 ---
 
-## 9. Reglas que este archivo NO puede escribir todavía
+## 10. Reglas que este archivo NO puede escribir todavía
 
 Mismo criterio que `06_MODELO_DOMINIO §8`: se nombran, no se inventan.
 
@@ -418,7 +427,7 @@ Las tres son técnicas: las destraba el barrido de `03_SPIKE §6`, no una decisi
 
 ---
 
-## 10. Índice inverso para la Fase 8
+## 11. Índice inverso para la Fase 8
 
 Cada test nombra su regla. Cobertura mínima exigida:
 
@@ -435,7 +444,7 @@ Los casos borde del mecanismo central (reanclaje) se escriben **antes** de imple
 
 ---
 
-## 11. Registro
+## 12. Registro
 
 | Fecha | Cambio | Motivo |
 |---|---|---|
@@ -443,3 +452,5 @@ Los casos borde del mecanismo central (reanclaje) se escriben **antes** de imple
 | 2026-09-09 | + R-047 (slug de ancla no se reusa) en §1 | Corrección de `09_SLICE_1 §8` |
 | 2026-09-09 | + R-048 (licencia de las anotaciones) en §5; sacada de la tabla de pendientes de §9 | D de licencia |
 | 2026-09-09 | + R-049 (baja de cuenta: anonimizar) en §2; sacada de la tabla de pendientes de §9 | D de baja |
+| 2026-09-08 | R-049: aclarado que los mensajes anonimizados NO se congelan contra edición retroactiva; no se agrega regla de bloqueo | Decisión del operador |
+| 2026-09-08 | R-048 movida de §5 (Catálogo y legalidad) a §6, nueva (Licencias y datos); §§6–11 anteriores renumeradas a §§7–12 | La licencia de las anotaciones no es catálogo de obras: es dato de usuario |
