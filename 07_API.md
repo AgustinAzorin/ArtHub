@@ -85,9 +85,9 @@ Orden: `Bloque.orden`, luego `offset_inicio`. **Nunca por actividad ni por `resp
 
 Las anclas `huerfana` **se incluyen** (`I-AN-7`: ninguna consulta las filtra por defecto).
 
-### `GET /api/v1/anclas/{ancla_id}`
+### `GET /api/v1/anclas/{slug}`
 
-La unidad del sitio. Es lo que consume la página del pasaje de J-01.
+La unidad del sitio. Es lo que consume la página del pasaje de J-01. La URL canónica del pasaje es `/pasaje/<slug>` (`09_SLICE_1 D-06`), no `/pasaje/<ancla_id>`, y este endpoint acepta únicamente el `slug` del ancla: es la forma decidida por el operador, no una opción entre dos.
 
 **200**
 ```json
@@ -336,3 +336,4 @@ Por eso `POST /auth/sesion` con `borrador_vencido` **crea la cuenta igual y devu
 | Fecha | Cambio | Motivo |
 |---|---|---|
 | 2026-09 | Versión inicial | Fase 6, escrita antes de la Fase 2 igual que 04, 05 y 06 |
+| 2026-09-09 | §1: URL canónica del pasaje es `/pasaje/<slug>`; `GET /api/v1/anclas/{slug}` acepta sólo el slug | Corrección de `09_SLICE_1 §8` |

@@ -184,7 +184,7 @@ concreto, con redundancia suficiente para sobrevivir a que ese texto cambie.
 - I-AN-4 — `bloque_inicio.orden ≤ bloque_fin.orden`, y si son iguales, `offset_inicio < offset_fin`. Rango vacío prohibido.
 - I-AN-5 — `1 ≤ (fin − inicio) ≤ tope_caracteres`. El tope se fija mirando los párrafos reales de las tres obras elegidas (`05_JOURNEYS §4`), no a ojo, pero el invariante existe desde ya.
 - I-AN-6 — El ancla apunta a `(obra, edicion, version, identidad_bloque, offset)`. Los cinco, siempre. Guardar sólo los tres primeros es el modelo frágil que §6 del concepto descarta.
-- I-AN-7 — **`estado = huerfana` es un estado normal, no un error.** Toda consulta que renderice anclas maneja el caso; ninguna lo filtra por defecto.
+- I-AN-7 — **`estado = huerfana` es un estado normal, no un error.** Toda consulta que renderice anclas maneja el caso; ninguna lo filtra por defecto. `estado = huerfana` implica posición nula (`bloque_inicio_id`, `offset_inicio`, `bloque_fin_id`, `offset_fin`): el ancla ya no apunta a un bloque vigente. Los tres selectores textuales (`texto_citado`, `prefijo`, `sufijo`) siguen siendo `NOT NULL` siempre, huérfana incluida: son lo único que le queda al ancla para mostrarse (corrección de `09_SLICE_1 §8`).
 - I-AN-8 — `confianza_migracion` y `metodo_migracion` son obligatorios en toda ancla con `derivada_de` no nulo. Ancla migrada sin registro de confianza y método = escritura rechazada (`03_SPIKE §5`).
 
 **Fields**
@@ -192,11 +192,13 @@ concreto, con redundancia suficiente para sobrevivir a que ese texto cambie.
 | Campo | Tipo | Null | Nota |
 |---|---|---|---|
 | `id` | uuid | no | |
+| `slug` | text | no | Opaco, único, inmutable, sin información de posición adentro; asignado una vez y no se reusa (`09_SLICE_1 D-06`, `R-047`). URL pública: `/pasaje/<slug>` |
 | `version_id` | uuid | no | Denormalizado desde el bloque: se consulta en cada render |
-| `bloque_inicio_id` / `offset_inicio` | uuid / int | no | |
-| `bloque_fin_id` / `offset_fin` | uuid / int | no | Iguales al inicio en la v1 |
+| `bloque_inicio_id` / `offset_inicio` | uuid / int | sí | `NULL` si `estado = huerfana` (`09_SLICE_1 §8`) |
+| `bloque_fin_id` / `offset_fin` | uuid / int | sí | Iguales al inicio en la v1; `NULL` si `estado = huerfana` |
 | `texto_citado` | text | no | Selector de cita |
 | `prefijo` / `sufijo` | text | no | Selector de contexto; longitud fija y registrada |
+| `longitud_contexto` | int | no | Longitud de `prefijo`/`sufijo` usada al crear esta ancla, registrada por fila para poder re-derivar sin invalidar lo viejo (`09_SLICE_1 D-08`) |
 | `alcance` | enum | no | `rango \| bloque \| obra`. En la v1 sólo se crea `rango` desde la interfaz; los otros existen en el modelo (`05_JOURNEYS`, errores de J-02) |
 | `estado` | enum | no | `viva \| huerfana \| retirada` |
 | `derivada_de` | uuid | sí | Ancla de la versión anterior |
@@ -398,3 +400,4 @@ exactamente el antipatrón que la guía nombra en su primera fila.
 | Fecha | Cambio | Motivo |
 |---|---|---|
 | 2026-09 | Versión inicial | Fase 5, escrita antes de la Fase 2 igual que 04 y 05 |
+| 2026-09-09 | §5: + `Ancla.slug` y `Ancla.longitud_contexto`; precisión de que `estado = huerfana` implica posición nula y los tres selectores textuales siguen `NOT NULL` siempre | Correcciones de `09_SLICE_1 §8` (D-06, D-08; la corrección de posición nula está citada ahí como "§3" pero es de Ancla, §5) |

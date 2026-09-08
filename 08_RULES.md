@@ -83,6 +83,13 @@ IF   llega un POST de creación con un Idempotency-Key ya visto en las últimas 
 THEN se devuelve la respuesta original, sin crear nada nuevo
 ```
 
+**R-047 — El slug de un ancla no se reusa** (`09_SLICE_1 D-06`, mismo motivo que R-028)
+```
+IF   se asigna un slug a un ancla
+THEN es opaco, se asigna una vez y no se reusa jamás
+ELSE ni siquiera si el ancla queda retirada
+```
+
 ---
 
 ## 2. Cuenta sin contraseña y borrador
@@ -416,3 +423,4 @@ Los casos borde del mecanismo central (reanclaje) se escriben **antes** de imple
 | Fecha | Cambio | Motivo |
 |---|---|---|
 | 2026-09 | Versión inicial | Fase 6, escrita antes de la Fase 2 |
+| 2026-09-09 | + R-047 (slug de ancla no se reusa) en §1 | Corrección de `09_SLICE_1 §8` |
