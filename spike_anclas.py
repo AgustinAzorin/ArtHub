@@ -574,20 +574,44 @@ def classify(
 # ---------------------------------------------------------------------------
 
 def summarize(records: List[dict]) -> dict:
+    """03_SPIKE §1: un ancla migrada cuyo texto no existía en B (existio_en_b
+    False) no tiene un desvío nulo, tiene un desvío no medible por arriba —
+    el reanclaje difuso la migró igual, con confianza alta, sobre un pasaje
+    que no está. Excluirla del histograma y del criterio de fracaso (como
+    hacía la versión anterior, filtrando por `desvio is not None`) es la
+    falla de contabilidad que 03_SPIKE §1 llama "la única que decide": el
+    arnés reportaba CUMPLE con anclas colgadas de un pasaje inexistente.
+    Estas anclas van al bucket ">50" y, si son falsos positivos, cuentan en
+    fp_desvio_mayor_50 igual que un desvío medido y grande.
+    """
     n = len(records)
     conteos = {c: 0 for c in CATEGORIAS}
     hist = {"≤5": 0, "6–50": 0, ">50": 0}
     cruza = 0
     fp_desvio_mayor_50 = 0
+    sobre_texto_inexistente_en_b = {"migrada_mal_fp": 0, "migrada_mal_ambiguedad": 0}
 
     for r in records:
         conteos[r["categoria"]] += 1
         if r["cruza_bloques"]:
             cruza += 1
-        if r["categoria"] in ("migrada_mal_fp", "migrada_mal_ambiguedad") and r["desvio"] is not None:
-            hist[_bucket_desvio(r["desvio"])] += 1
-        if r["categoria"] == "migrada_mal_fp" and r["desvio"] is not None and r["desvio"] > 50:
-            fp_desvio_mayor_50 += 1
+        if r["categoria"] in ("migrada_mal_fp", "migrada_mal_ambiguedad"):
+            if r["desvio"] is not None:
+                hist[_bucket_desvio(r["desvio"])] += 1
+            else:
+                hist[">50"] += 1
+                sobre_texto_inexistente_en_b[r["categoria"]] += 1
+        if r["categoria"] == "migrada_mal_fp":
+            if (r["desvio"] is not None and r["desvio"] > 50) or r["desvio"] is None:
+                fp_desvio_mayor_50 += 1
+
+    hist_total = hist["≤5"] + hist["6–50"] + hist[">50"]
+    esperado = conteos["migrada_mal_fp"] + conteos["migrada_mal_ambiguedad"]
+    assert hist_total == esperado, (
+        f"histograma de desvío ({hist_total}) no cierra contra "
+        f"migrada_mal_fp + migrada_mal_ambiguedad ({esperado}): "
+        "quedó alguna ancla migrada_mal_* fuera del histograma"
+    )
 
     porcentajes = {c: (round(100 * conteos[c] / n, 2) if n else 0.0) for c in CATEGORIAS}
     fp_pct = round(100 * fp_desvio_mayor_50 / n, 2) if n else 0.0
@@ -598,6 +622,7 @@ def summarize(records: List[dict]) -> dict:
         "conteos": conteos,
         "porcentajes": porcentajes,
         "histograma_desvio_migraciones_malas": hist,
+        "sobre_texto_inexistente_en_b": sobre_texto_inexistente_en_b,
         "anclas_cruzan_bloques": cruza,
         "criterio_fracaso": {
             "fp_desvio_mayor_50_pct": fp_pct,
@@ -611,12 +636,19 @@ def summarize(records: List[dict]) -> dict:
 
 
 def format_table(summary: dict) -> str:
+    n = summary["n"]
     lines = ["| Resultado | n | % |", "|---|---|---|"]
     for cat in CATEGORIAS:
         label = ETIQUETAS[cat]
         if cat == "migrada_mal_fp":
             label = f"**{label}**"
         lines.append(f"| {label} | {summary['conteos'][cat]} | {summary['porcentajes'][cat]}% |")
+        if cat in ("migrada_mal_fp", "migrada_mal_ambiguedad"):
+            sub_n = summary["sobre_texto_inexistente_en_b"][cat]
+            sub_pct = round(100 * sub_n / n, 2) if n else 0.0
+            lines.append(
+                f"| &nbsp;&nbsp;de las cuales, sobre texto inexistente en B | {sub_n} | {sub_pct}% |"
+            )
     return "\n".join(lines)
 
 
