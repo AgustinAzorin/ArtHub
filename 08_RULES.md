@@ -83,6 +83,13 @@ IF   llega un POST de creación con un Idempotency-Key ya visto en las últimas 
 THEN se devuelve la respuesta original, sin crear nada nuevo
 ```
 
+**R-047 — El slug de un ancla no se reusa** (`09_SLICE_1 D-06`, mismo motivo que R-028)
+```
+IF   se asigna un slug a un ancla
+THEN es opaco, se asigna una vez y no se reusa jamás
+ELSE ni siquiera si el ancla queda retirada
+```
+
 ---
 
 ## 2. Cuenta sin contraseña y borrador
@@ -148,6 +155,15 @@ ELSE no existe campo de contraseña, ni hashing, ni recuperación, ni pantalla d
 ```
 Se recolecta correo y seudónimo. Nada más. No hay campo de nombre real.
 ```
+
+**R-049 — Baja de cuenta: anonimizar, no retirar** (`I-CU-3`, `P-05`)
+```
+IF   una cuenta se da de baja
+THEN los mensajes que escribió permanecen en sus hilos, con autoría reemplazada
+     por un seudónimo neutro estable
+ELSE nunca se retiran: agujerear un hilo ajeno por la baja de un tercero viola P-05
+```
+Decidido. Qué otro dato se borra (correo, sesiones, preferencias) está en `07_API §4`.
 
 ---
 
@@ -301,6 +317,16 @@ AND  se emite edicion.default_cambiado
 ```
 Mueve el tráfico entre silos de traducción: es decisión de producto, no de catálogo.
 
+**R-048 — Licencia de las anotaciones** (`00_CONSTRAINTS §4`)
+```
+IF   una persona publica un comentario o un mensaje en un hilo
+THEN conserva su copyright sobre ese texto y otorga una licencia CC BY-SA 4.0
+     irrevocable al publicarlo
+ELSE cualquier exportación del grafo (00_CONSTRAINTS §5) sale bajo la misma
+     licencia, con atribución por autor
+```
+Decidido: candidata cerrada. Cláusula completa en `TERMINOS.md`.
+
 ---
 
 ## 6. Notificaciones: el único mecanismo de retorno
@@ -387,10 +413,8 @@ Mismo criterio que `06_MODELO_DOMINIO §8`: se nombran, no se inventan.
 | Valor de `umbral_confianza` en R-030 | Barrido de `--umbral` de `03_SPIKE §6` |
 | Valor de `tope_caracteres` en R-005 | Los párrafos reales de las tres obras |
 | Longitud de prefijo/sufijo (R-001) | El mismo spike: es la palanca contra la ambigüedad literal |
-| **Baja de cuenta** (`I-CU-3`) | **Decisión de producto pendiente y bloqueante para los términos.** Retirar los mensajes agujerea los hilos; dejarlos con autoría neutra le saca a la persona el control de su prosa. Hay que elegir antes del primer usuario, igual que la licencia de las anotaciones |
-| Licencia de las anotaciones | `00_CONSTRAINTS §4`. Candidata CC BY-SA. Si no se fija antes del primer usuario, abrir el grafo después es imposible |
 
-Las dos últimas no son técnicas y no las destraba ningún experimento: **las destraba sentarse a decidirlas.** Son, hoy, las dos decisiones más baratas y más urgentes de todo el proyecto.
+Las tres son técnicas: las destraba el barrido de `03_SPIKE §6`, no una decisión de producto.
 
 ---
 
@@ -416,3 +440,6 @@ Los casos borde del mecanismo central (reanclaje) se escriben **antes** de imple
 | Fecha | Cambio | Motivo |
 |---|---|---|
 | 2026-09 | Versión inicial | Fase 6, escrita antes de la Fase 2 |
+| 2026-09-09 | + R-047 (slug de ancla no se reusa) en §1 | Corrección de `09_SLICE_1 §8` |
+| 2026-09-09 | + R-048 (licencia de las anotaciones) en §5; sacada de la tabla de pendientes de §9 | D de licencia |
+| 2026-09-09 | + R-049 (baja de cuenta: anonimizar) en §2; sacada de la tabla de pendientes de §9 | D de baja |

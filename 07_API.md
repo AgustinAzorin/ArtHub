@@ -85,9 +85,9 @@ Orden: `Bloque.orden`, luego `offset_inicio`. **Nunca por actividad ni por `resp
 
 Las anclas `huerfana` **se incluyen** (`I-AN-7`: ninguna consulta las filtra por defecto).
 
-### `GET /api/v1/anclas/{ancla_id}`
+### `GET /api/v1/anclas/{slug}`
 
-La unidad del sitio. Es lo que consume la página del pasaje de J-01.
+La unidad del sitio. Es lo que consume la página del pasaje de J-01. La URL canónica del pasaje es `/pasaje/<slug>` (`09_SLICE_1 D-06`), no `/pasaje/<ancla_id>`, y este endpoint acepta únicamente el `slug` del ancla: es la forma decidida por el operador, no una opción entre dos.
 
 **200**
 ```json
@@ -228,7 +228,13 @@ En la v1 no hay diario de lectura ni notas privadas, así que el export es chico
 
 ### `DELETE /api/v1/cuenta`
 
-**No se implementa hasta que se decida `I-CU-3`.** Es la tercera cosa que `06_MODELO_DOMINIO §12` marca como bloqueante para los términos y sigue sin decidir: si los mensajes se retiran, los hilos quedan agujereados; si quedan con autoría neutra, la persona no controla su prosa. Este archivo no la decide y no puede: **es una decisión de producto que va a `01_PRODUCT_PRINCIPLES` o a los términos, y hay que tomarla antes del primer usuario.** El endpoint queda especificado en cuanto haya respuesta.
+Decidido (`I-CU-3`, `06_MODELO_DOMINIO §10`): la baja **anonimiza, no retira**. Con sesión.
+
+**Qué se borra:** `correo`, todas las sesiones activas (se invalida `sid` en todo dispositivo) y las preferencias asociadas a la cuenta.
+
+**Qué queda:** los mensajes que la cuenta escribió permanecen en sus hilos, con `seudonimo` reemplazado por un seudónimo neutro estable generado por el sistema; `estado` de la cuenta pasa a `anonimizada`. Los hilos no se agujerean (`P-05`).
+
+**204.**
 
 ### `GET /api/v1/config`
 
@@ -336,3 +342,5 @@ Por eso `POST /auth/sesion` con `borrador_vencido` **crea la cuenta igual y devu
 | Fecha | Cambio | Motivo |
 |---|---|---|
 | 2026-09 | Versión inicial | Fase 6, escrita antes de la Fase 2 igual que 04, 05 y 06 |
+| 2026-09-09 | §1: URL canónica del pasaje es `/pasaje/<slug>`; `GET /api/v1/anclas/{slug}` acepta sólo el slug | Corrección de `09_SLICE_1 §8` |
+| 2026-09-09 | §4: efecto de `DELETE /api/v1/cuenta` especificado (I-CU-3 decidida: anonimiza, no retira) | D de baja |

@@ -133,3 +133,4 @@ convertir al operador en anfitrión de un lugar propio—, pero obliga a dos cos
 | Fecha | Cambio | Motivo |
 |---|---|---|
 | 2026-09 | Versión inicial, condicionada | Fase 3 escrita antes de la Fase 2 |
+| 2026-09-09 | Sin cambios: revisado contra `09_SLICE_1 §8`, el slice 1 es subconjunto estricto y no agrega alcance | Corrección de `09_SLICE_1 §8` |
