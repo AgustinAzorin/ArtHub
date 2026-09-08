@@ -9,7 +9,7 @@
 | `00_CONSTRAINTS.md` | Tiempo del operador, dinero, fechas de cierre/reevaluación, restricciones legales, qué pasa si el proyecto se abandona | Producto, arquitectura |
 | `01_PRODUCT_PRINCIPLES.md` | Los nueve principios MUST/MUST NOT, autoridad máxima ante conflicto | Esquema, contratos, implementación |
 | `02_RISKS.md` | Qué riesgo se prueba primero y con qué criterio de fracaso | Producto ni solución técnica |
-| `03_SPIKE_anclas.md` | Pregunta y arnés del experimento de reanclaje (R-03) | El resultado (no corrió); `umbral_confianza` |
+| `03_SPIKE_anclas.md` | Pregunta, arnés y resultado del experimento de reanclaje (R-03, corrido) | Producto ni solución técnica más allá del propio umbral |
 | `04_MVP.md` | Qué entra y qué no entra en la v1 | Journeys, modelo de datos, contratos |
 | `05_JOURNEYS.md` | Recorridos críticos J-01/J-02/J-03 paso a paso | Esquema, endpoints |
 | `06_MODELO_DOMINIO.md` | Entidades, invariantes, campos del esquema | Contratos HTTP, reglas ejecutables |
@@ -36,7 +36,6 @@ Una regla que contradiga un principio es una regla mal escrita, no una excepció
 
 | Valor | Dónde vive el pendiente |
 |---|---|
-| `umbral_confianza` | `08_RULES` R-030 |
 | Longitud de prefijo/sufijo | `08_RULES` R-001 |
 | `tope_caracteres` | `08_RULES` R-005 |
 | Techo USD/mes | `00_CONSTRAINTS §2` |

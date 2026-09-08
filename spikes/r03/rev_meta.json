@@ -1,0 +1,15 @@
+{
+  "titulo": "El almohadón de pluma",
+  "sitio": "es.wikisource.org",
+  "saltos_pedidos": "n/a (revids explícitos, ver comentario)",
+  "saltos_reales": 18,
+  "revid_a": 615269,
+  "timestamp_a": "2013-11-13T23:46:29Z",
+  "comentario_a": "",
+  "revid_b": 1343145,
+  "timestamp_b": "2023-07-25T22:13:31Z",
+  "comentario_b": "",
+  "archivo_a": "rev_A.txt",
+  "archivo_b": "rev_B.txt",
+  "nota": "revid_b NO es la última revisión de la página: la última (1613903) es un stub post-transclusión ProofreadPage sin texto inline (reemplazo en rev 1343158, 2023-07-25T22:39:54Z). Se usó la última revisión con contenido completo real."
+}

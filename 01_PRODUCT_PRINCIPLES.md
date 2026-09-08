@@ -46,9 +46,9 @@
 
 ## P-05 — Ninguna conversación se pierde por un cambio en el texto
 
-**WHY** — Es el único riesgo técnico que no se puede arreglar después. Una errata corregida que huerfaniza mil hilos destruye lo único que el proyecto acumula.
-**MUST** — Anclas inmutables y versionadas, tres selectores redundantes (posición, cita, contexto), texto canónico propio, reanclaje acotado por bloque, y **huérfano visible** cuando el reanclaje no tiene confianza suficiente.
-**MUST NOT** — Editar texto publicado en el lugar, renderizar desde el archivo de origen, borrar o mover un ancla sin dejar registro, hacer desaparecer un hilo en silencio.
+**WHY** — Es el único riesgo técnico que no se puede arreglar después. Una errata corregida que huerfaniza mil hilos destruye lo único que el proyecto acumula. `03_SPIKE_anclas.md` (R-03) agregó un hallazgo peor que huerfanizar: un ancla que migra al pasaje equivocado no desaparece, miente, y nadie se entera nunca.
+**MUST** — Anclas inmutables y versionadas, tres selectores redundantes (posición, cita, contexto), texto canónico propio, reanclaje acotado por bloque, y **huérfano visible** cuando el reanclaje no tiene confianza suficiente. Toda migración de ancla entre versiones registra una confianza explícita; por debajo del umbral **0.80** (`08_RULES` R-030, fijado por el barrido de `03_SPIKE_anclas.md §2`/§6), el ancla queda huérfana visible, nunca se migra "por las dudas"; ante empate entre dos candidatos, huérfana.
+**MUST NOT** — Editar texto publicado en el lugar, renderizar desde el archivo de origen, borrar o mover un ancla sin dejar registro, hacer desaparecer un hilo en silencio. Migrar un ancla sin dejar registro de la versión de origen, de la confianza y del método (posición o concordancia difusa).
 **EXAMPLE** — Se corrige una errata del capítulo 5: se publica una versión nueva, se reanclan sólo las anclas de los bloques que cambiaron, y las que no migran quedan mostrando su cita original con un aviso.
 
 ---
@@ -105,3 +105,4 @@ No son bugs; son el precio de los principios y hay que reconocerlas cuando apare
 | Fecha | Principio | Cambio | Motivo |
 |---|---|---|---|
 | 2026-09 | — | Versión inicial | Fase 0 |
+| 2026-09-08 | P-05 | + MUST sobre confianza explícita de migración (umbral `0.80`) y + MUST NOT sobre migrar sin registro de confianza/método | `03_SPIKE_anclas.md §5`, redacción anticipada por `02_RISKS §R-03`, número fijado por la corrida real del spike |

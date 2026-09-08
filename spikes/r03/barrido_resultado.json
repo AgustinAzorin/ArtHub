@@ -1,0 +1,672 @@
+{
+  "meta": {
+    "obra": "El almohadón de pluma",
+    "revisiones": "615269 -> 1343145 (18 ediciones)",
+    "comentario": ""
+  },
+  "parametros": {
+    "n": 200,
+    "contexto": 32,
+    "umbrales": [
+      0.6,
+      0.7,
+      0.75,
+      0.8,
+      0.9
+    ],
+    "semillas": [
+      1,
+      2,
+      3
+    ]
+  },
+  "barrido": [
+    {
+      "umbral": 0.6,
+      "semilla": 1,
+      "fp_desvio_mayor_50_pct": 4.0,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.6,
+      "semilla": 2,
+      "fp_desvio_mayor_50_pct": 4.5,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.6,
+      "semilla": 3,
+      "fp_desvio_mayor_50_pct": 4.0,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.7,
+      "semilla": 1,
+      "fp_desvio_mayor_50_pct": 3.5,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.7,
+      "semilla": 2,
+      "fp_desvio_mayor_50_pct": 3.5,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.7,
+      "semilla": 3,
+      "fp_desvio_mayor_50_pct": 3.5,
+      "huerfanas_evitables_pct": 0.5
+    },
+    {
+      "umbral": 0.75,
+      "semilla": 1,
+      "fp_desvio_mayor_50_pct": 3.0,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.75,
+      "semilla": 2,
+      "fp_desvio_mayor_50_pct": 3.5,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.75,
+      "semilla": 3,
+      "fp_desvio_mayor_50_pct": 3.0,
+      "huerfanas_evitables_pct": 0.5
+    },
+    {
+      "umbral": 0.8,
+      "semilla": 1,
+      "fp_desvio_mayor_50_pct": 3.0,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.8,
+      "semilla": 2,
+      "fp_desvio_mayor_50_pct": 3.5,
+      "huerfanas_evitables_pct": 0.0
+    },
+    {
+      "umbral": 0.8,
+      "semilla": 3,
+      "fp_desvio_mayor_50_pct": 3.0,
+      "huerfanas_evitables_pct": 0.5
+    },
+    {
+      "umbral": 0.9,
+      "semilla": 1,
+      "fp_desvio_mayor_50_pct": 3.0,
+      "huerfanas_evitables_pct": 0.5
+    },
+    {
+      "umbral": 0.9,
+      "semilla": 2,
+      "fp_desvio_mayor_50_pct": 3.5,
+      "huerfanas_evitables_pct": 0.5
+    },
+    {
+      "umbral": 0.9,
+      "semilla": 3,
+      "fp_desvio_mayor_50_pct": 3.0,
+      "huerfanas_evitables_pct": 1.5
+    }
+  ],
+  "detalle_por_celda": {
+    "umbral=0.6_semilla=1": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 140,
+        "migrada_mal_fp": 8,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 17,
+        "migro_tocado": 35
+      },
+      "porcentajes": {
+        "migrada_bien": 70.0,
+        "migrada_mal_fp": 4.0,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 8.5,
+        "migro_tocado": 17.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 8
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 8,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 24,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 4.0,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.6_semilla=2": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 134,
+        "migrada_mal_fp": 9,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 18,
+        "migro_tocado": 39
+      },
+      "porcentajes": {
+        "migrada_bien": 67.0,
+        "migrada_mal_fp": 4.5,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 9.0,
+        "migro_tocado": 19.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 9
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 9,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 31,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 4.5,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.6_semilla=3": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 133,
+        "migrada_mal_fp": 10,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 22,
+        "migro_tocado": 35
+      },
+      "porcentajes": {
+        "migrada_bien": 66.5,
+        "migrada_mal_fp": 5.0,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 11.0,
+        "migro_tocado": 17.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 2,
+        "6–50": 0,
+        ">50": 8
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 8,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 38,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 4.0,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.7_semilla=1": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 140,
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 18,
+        "migro_tocado": 35
+      },
+      "porcentajes": {
+        "migrada_bien": 70.0,
+        "migrada_mal_fp": 3.5,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 9.0,
+        "migro_tocado": 17.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 7
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 24,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.5,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.7_semilla=2": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 134,
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 20,
+        "migro_tocado": 39
+      },
+      "porcentajes": {
+        "migrada_bien": 67.0,
+        "migrada_mal_fp": 3.5,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 10.0,
+        "migro_tocado": 19.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 7
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 31,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.5,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.7_semilla=3": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 133,
+        "migrada_mal_fp": 9,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 1,
+        "huerfana_correcta": 23,
+        "migro_tocado": 34
+      },
+      "porcentajes": {
+        "migrada_bien": 66.5,
+        "migrada_mal_fp": 4.5,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.5,
+        "huerfana_correcta": 11.5,
+        "migro_tocado": 17.0
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 2,
+        "6–50": 0,
+        ">50": 7
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 38,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.5,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.5,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.75_semilla=1": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 140,
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 19,
+        "migro_tocado": 35
+      },
+      "porcentajes": {
+        "migrada_bien": 70.0,
+        "migrada_mal_fp": 3.0,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 9.5,
+        "migro_tocado": 17.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 6
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 24,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.0,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.75_semilla=2": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 134,
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 20,
+        "migro_tocado": 39
+      },
+      "porcentajes": {
+        "migrada_bien": 67.0,
+        "migrada_mal_fp": 3.5,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 10.0,
+        "migro_tocado": 19.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 7
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 31,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.5,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.75_semilla=3": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 133,
+        "migrada_mal_fp": 8,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 1,
+        "huerfana_correcta": 24,
+        "migro_tocado": 34
+      },
+      "porcentajes": {
+        "migrada_bien": 66.5,
+        "migrada_mal_fp": 4.0,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.5,
+        "huerfana_correcta": 12.0,
+        "migro_tocado": 17.0
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 2,
+        "6–50": 0,
+        ">50": 6
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 38,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.0,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.5,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.8_semilla=1": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 140,
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 19,
+        "migro_tocado": 35
+      },
+      "porcentajes": {
+        "migrada_bien": 70.0,
+        "migrada_mal_fp": 3.0,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 9.5,
+        "migro_tocado": 17.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 6
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 24,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.0,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.8_semilla=2": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 134,
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 0,
+        "huerfana_correcta": 20,
+        "migro_tocado": 39
+      },
+      "porcentajes": {
+        "migrada_bien": 67.0,
+        "migrada_mal_fp": 3.5,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.0,
+        "huerfana_correcta": 10.0,
+        "migro_tocado": 19.5
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 7
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 31,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.5,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.0,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.8_semilla=3": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 133,
+        "migrada_mal_fp": 8,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 1,
+        "huerfana_correcta": 24,
+        "migro_tocado": 34
+      },
+      "porcentajes": {
+        "migrada_bien": 66.5,
+        "migrada_mal_fp": 4.0,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.5,
+        "huerfana_correcta": 12.0,
+        "migro_tocado": 17.0
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 2,
+        "6–50": 0,
+        ">50": 6
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 38,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.0,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.5,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.9_semilla=1": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 140,
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 1,
+        "huerfana_correcta": 19,
+        "migro_tocado": 34
+      },
+      "porcentajes": {
+        "migrada_bien": 70.0,
+        "migrada_mal_fp": 3.0,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.5,
+        "huerfana_correcta": 9.5,
+        "migro_tocado": 17.0
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 6
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 24,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.0,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.5,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.9_semilla=2": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 134,
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 1,
+        "huerfana_correcta": 20,
+        "migro_tocado": 38
+      },
+      "porcentajes": {
+        "migrada_bien": 67.0,
+        "migrada_mal_fp": 3.5,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 0.5,
+        "huerfana_correcta": 10.0,
+        "migro_tocado": 19.0
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 0,
+        "6–50": 0,
+        ">50": 7
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 7,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 31,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.5,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 0.5,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    },
+    "umbral=0.9_semilla=3": {
+      "n": 200,
+      "conteos": {
+        "migrada_bien": 133,
+        "migrada_mal_fp": 8,
+        "migrada_mal_ambiguedad": 0,
+        "huerfana_evitable": 3,
+        "huerfana_correcta": 24,
+        "migro_tocado": 32
+      },
+      "porcentajes": {
+        "migrada_bien": 66.5,
+        "migrada_mal_fp": 4.0,
+        "migrada_mal_ambiguedad": 0.0,
+        "huerfana_evitable": 1.5,
+        "huerfana_correcta": 12.0,
+        "migro_tocado": 16.0
+      },
+      "histograma_desvio_migraciones_malas": {
+        "≤5": 2,
+        "6–50": 0,
+        ">50": 6
+      },
+      "sobre_texto_inexistente_en_b": {
+        "migrada_mal_fp": 6,
+        "migrada_mal_ambiguedad": 0
+      },
+      "anclas_cruzan_bloques": 38,
+      "criterio_fracaso": {
+        "fp_desvio_mayor_50_pct": 3.0,
+        "fp_desvio_mayor_50_umbral_pct": 1.0,
+        "fp_desvio_mayor_50_cumple": false,
+        "huerfanas_evitables_pct": 1.5,
+        "huerfanas_evitables_umbral_pct": 10.0,
+        "huerfanas_evitables_cumple": true
+      }
+    }
+  }
+}

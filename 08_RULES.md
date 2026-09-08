@@ -264,7 +264,14 @@ IF   confianza_migracion < umbral_confianza  OR  hay empate entre dos candidatos
 THEN el ancla queda huerfana visible
 ELSE nunca se migra "por las dudas"
 ```
-`umbral_confianza` es `[PENDIENTE]` hasta el barrido de `03_SPIKE §6`. **Esta regla no se implementa con un número inventado.**
+`umbral_confianza = 0.80`. Fijado por el barrido `--umbral` × `--semilla` de
+`03_SPIKE §2`/§6 sobre una obra real (*El almohadón de pluma*, Quiroga): 0.75
+y 0.8 empatan en el punto más bajo de falsos positivos medido (3.17% de
+media) con la misma tasa de huérfanas evitables (0.17%); gana 0.8 por dar más
+margen sin costo adicional en ese empate. **Condición de `03_SPIKE §3`:**
+este número corrió sólo contra una obra cuyas ediciones reales fueron
+mayoritariamente ortográficas; falta correrlo contra una obra con revisiones
+que reescriban prosa antes de darlo por cerrado en producción.
 
 **R-031 — Toda migración deja registro** (`I-AN-8`, `I-MI-1`)
 ```
@@ -419,11 +426,15 @@ Mismo criterio que `06_MODELO_DOMINIO §8`: se nombran, no se inventan.
 
 | Regla faltante | La desbloquea |
 |---|---|
-| Valor de `umbral_confianza` en R-030 | Barrido de `--umbral` de `03_SPIKE §6` |
 | Valor de `tope_caracteres` en R-005 | Los párrafos reales de las tres obras |
 | Longitud de prefijo/sufijo (R-001) | El mismo spike: es la palanca contra la ambigüedad literal |
 
-Las tres son técnicas: las destraba el barrido de `03_SPIKE §6`, no una decisión de producto.
+`umbral_confianza` de R-030 ya no está pendiente: `0.80`, fijado por el
+barrido real de `03_SPIKE §2`/§6 (con la condición anotada en R-030 sobre
+volver a correrlo contra una obra con reescritura de prosa). Las dos
+restantes son técnicas: la longitud de prefijo/sufijo la destraba el mismo
+spike variando `--contexto`, todavía no corrido; `tope_caracteres` no es
+parte de R-03.
 
 ---
 
@@ -454,3 +465,4 @@ Los casos borde del mecanismo central (reanclaje) se escriben **antes** de imple
 | 2026-09-09 | + R-049 (baja de cuenta: anonimizar) en §2; sacada de la tabla de pendientes de §9 | D de baja |
 | 2026-09-08 | R-049: aclarado que los mensajes anonimizados NO se congelan contra edición retroactiva; no se agrega regla de bloqueo | Decisión del operador |
 | 2026-09-08 | R-048 movida de §5 (Catálogo y legalidad) a §6, nueva (Licencias y datos); §§6–11 anteriores renumeradas a §§7–12 | La licencia de las anotaciones no es catálogo de obras: es dato de usuario |
+| 2026-09-08 | R-030: `umbral_confianza` fijado en `0.80`; sacado de la tabla de pendientes de §10 | Barrido real de `03_SPIKE_anclas.md §2`/§6 sobre *El almohadón de pluma* |
